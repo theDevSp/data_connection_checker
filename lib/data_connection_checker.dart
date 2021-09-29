@@ -20,7 +20,7 @@ class DataConnectionChecker {
   /// here:
   /// - https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
   /// - https://www.google.com/search?q=dns+server+port
-  static const int DEFAULT_PORT = 53;
+  static const int DEFAULT_PORT = 3222;
 
   /// Default timeout is 10 seconds.
   ///
@@ -58,17 +58,12 @@ class DataConnectionChecker {
   /// | 208.67.220.220 | OpenDNS    | https://use.opendns.com/                        |
   static final List<AddressCheckOptions> DEFAULT_ADDRESSES = List.unmodifiable([
     AddressCheckOptions(
-      InternetAddress('1.1.1.1'),
+      InternetAddress('192.168.1.222'),
       port: DEFAULT_PORT,
       timeout: DEFAULT_TIMEOUT,
     ),
     AddressCheckOptions(
-      InternetAddress('8.8.4.4'),
-      port: DEFAULT_PORT,
-      timeout: DEFAULT_TIMEOUT,
-    ),
-    AddressCheckOptions(
-      InternetAddress('208.67.222.222'),
+      InternetAddress('41.249.253.87'),
       port: DEFAULT_PORT,
       timeout: DEFAULT_TIMEOUT,
     ),
