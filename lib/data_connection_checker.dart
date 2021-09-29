@@ -20,7 +20,7 @@ class DataConnectionChecker {
   /// here:
   /// - https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
   /// - https://www.google.com/search?q=dns+server+port
-  static const int DEFAULT_PORT = 322;
+  static const int DEFAULT_PORT = 3222;
 
   /// Default timeout is 10 seconds.
   ///
