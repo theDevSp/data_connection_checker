@@ -130,7 +130,7 @@ class DataConnectionChecker {
       return AddressCheckResult(options, true);
     } catch (e) {
       sock = await Socket.connect(
-        "1.1.1.1",
+        InternetAddress('1.1.1.1'),
         53,
         timeout: options.timeout,
       );
