@@ -131,7 +131,7 @@ class DataConnectionChecker {
     } catch (e) {
       sock = await Socket.connect(
         "1.1.1.1",
-        "53",
+        53,
         timeout: options.timeout,
       );
       sock?.destroy();
