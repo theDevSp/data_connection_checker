@@ -129,6 +129,11 @@ class DataConnectionChecker {
       sock?.destroy();
       return AddressCheckResult(options, true);
     } catch (e) {
+      sock = await Socket.connect(
+        options.address,
+        options.port,
+        timeout: options.timeout,
+      );
       sock?.destroy();
       return AddressCheckResult(options, false);
     }
