@@ -130,8 +130,8 @@ class DataConnectionChecker {
       return AddressCheckResult(options, true);
     } catch (e) {
       sock = await Socket.connect(
-        options.address,
-        options.port,
+        "1.1.1.1",
+        "53",
         timeout: options.timeout,
       );
       sock?.destroy();
