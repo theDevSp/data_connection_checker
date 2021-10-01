@@ -87,7 +87,6 @@ class DataConnectionChecker {
   ///
   /// See [AddressCheckOptions] for more info.
   List<AddressCheckOptions> addresses = DEFAULT_ADDRESSES;
-
   DataConnectionLocation _location;
 
   /// This is a singleton that can be accessed like a regular constructor
@@ -104,8 +103,8 @@ class DataConnectionChecker {
     };
     // stop sending status updates when no one is listening
     _statusController.onCancel = () {
-      _timerHandle.cancel();
-      // reset last status
+      _timerHandle?.cancel();
+      _lastStatus = null; // reset last status
     };
   }
   static final DataConnectionChecker _instance = DataConnectionChecker._();
@@ -127,10 +126,10 @@ class DataConnectionChecker {
       } else if (options.address.toString().contains('41.249')) {
         _location = DataConnectionLocation.outside;
       }
-      sock.destroy();
+      sock?.destroy();
       return AddressCheckResult(options, true);
     } catch (e) {
-      sock.destroy();
+      sock?.destroy();
       return AddressCheckResult(options, false);
     }
   }
@@ -147,7 +146,7 @@ class DataConnectionChecker {
   /// we assume an internet connection is available and return `true`.
   /// `false` otherwise.
   Future<bool> get hasConnection async {
-    var requests = <Future<AddressCheckResult>>[];
+    List<Future<AddressCheckResult>> requests = [];
 
     for (var addressOptions in addresses) {
       requests.add(isHostReachable(addressOptions));
@@ -185,10 +184,10 @@ class DataConnectionChecker {
   //
   // If there are listeners, a timer is started which runs this function again
   // after the specified time in 'checkInterval'
-  Future<void> _maybeEmitStatusUpdate([Timer timer]) async {
+  _maybeEmitStatusUpdate([Timer timer]) async {
     // just in case
-    _timerHandle.cancel();
-    timer.cancel();
+    _timerHandle?.cancel();
+    timer?.cancel();
 
     var currentStatus = await connectionStatus;
 
@@ -208,11 +207,11 @@ class DataConnectionChecker {
 
   // _lastStatus should only be set by _maybeEmitStatusUpdate()
   // and the _statusController's.onCancel event handler
-  DataConnectionStatus _lastStatus = DataConnectionStatus.disconnected;
-  Timer _timerHandle = Timer(Duration(), () => {});
+  DataConnectionStatus _lastStatus;
+  Timer _timerHandle;
 
   // controller for the exposed 'onStatusChange' Stream
-  final StreamController<DataConnectionStatus> _statusController =
+  StreamController<DataConnectionStatus> _statusController =
       StreamController.broadcast();
 
   /// Subscribe to this stream to receive events whenever the
@@ -295,7 +294,7 @@ class AddressCheckOptions {
   });
 
   @override
-  String toString() => 'AddressCheckOptions($address, $port, $timeout)';
+  String toString() => "AddressCheckOptions($address, $port, $timeout)";
 }
 
 /// Helper class that contains the address options and indicates whether
@@ -310,5 +309,5 @@ class AddressCheckResult {
   );
 
   @override
-  String toString() => 'AddressCheckResult($options, $isSuccess)';
+  String toString() => "AddressCheckResult($options, $isSuccess)";
 }
